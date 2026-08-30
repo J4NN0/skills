@@ -1,55 +1,43 @@
-# Agent Skills
+# Skills
 
 Personal collection of [Claude Code agent skills](https://docs.claude.com/en/docs/claude-code/skills).
 
-## Install
-
-Skills live in `~/.claude/skills`, one folder per skill, each with a `SKILL.md` inside:
-
-```
-~/.claude/skills/
-├── grilling/
-│   └── SKILL.md
-├── pr-description/
-│   └── SKILL.md
-└── ...
-```
-
-**Fresh setup** — clone this repo straight into place (requires `~/.claude/skills` to not exist yet):
-
-```sh
-git clone https://github.com/J4NN0/agent-skills.git ~/.claude/skills
-```
-
-**Already have skills there** — clone to a temp dir and copy the folders in:
-
-```sh
-git clone https://github.com/J4NN0/agent-skills.git /tmp/agent-skills
-mkdir -p ~/.claude/skills
-for d in /tmp/agent-skills/*/; do cp -R "${d%/}" ~/.claude/skills/; done
-rm -rf /tmp/agent-skills
-```
-
-This copies only the skill folders — `.git` and this README stay behind. Re-run it any time to update; existing skills of the same name are overwritten.
-
-Start a new Claude Code session and the skills show up. Verify by running `/` and looking for them in the list.
-
-## Skills
-
 | Skill | Description |
 |---|---|
-| `domain-modeling` | Build and sharpen a project's domain model and ubiquitous language |
-| `find-docs` | Fetch up-to-date library/framework docs via Context7 |
-| `grilling` | Stress-test a plan or design through relentless questioning |
-| `grill-me` | `/grill-me` — a relentless interview to sharpen a plan or design |
-| `grill-with-docs` | `/grill-with-docs` — same, but writes ADRs and a glossary as it goes |
+| `find-docs` | Fetch up-to-date library/framework docs via Context7[^1] |
+| `grilling` | Stress-test a plan or design through relentless questioning[^2] |
+| `grill-me` | `/grill-me` — a relentless interview to sharpen a plan or design[^2] |
 | `pr-description` | Write concise PR descriptions from the repo diff and context |
-| `systematic-debugging` | Four-phase debugging with root cause analysis before fixes |
-| `webapp-testing` | Drive and test local web apps with Playwright |
+| `systematic-debugging` | Four-phase debugging with root cause analysis before fixes[^3] |
 
-## Sources
+## Installation
 
-- [Systematic Debugging](https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md)
-- [Webapp Testing](https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md)
-- [Context7](https://context7.com/install)
-- [Grill Me](https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md)
+<details>
+<summary><strong>Claude Code</strong></summary>
+
+```bash
+claude plugins install j4nn0-skills
+```
+
+Or, from inside a session:
+
+```bash
+/plugin install j4nn0-skills
+```
+
+</details>
+
+<details>
+<summary><strong>Codex, and other agents</strong></summary>
+
+```bash
+npx skills@latest add j4nn0/skills
+```
+
+Choose the skills you need, and the coding agents to install them in.
+
+</details>
+
+[^1]: [Context7](https://context7.com/install)
+[^2]: Adapted from [mattpocock/skills — grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)
+[^3]: Adapted from [obra/superpowers — systematic-debugging](https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md)

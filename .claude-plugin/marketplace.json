@@ -1,0 +1,22 @@
+{
+  "name": "J4NN0",
+  "owner": {
+    "name": "J4NN0",
+    "url": "https://j4nn0.github.io/"
+  },
+  "description": "J4NN0's skills for engineering",
+  "plugins": [
+    {
+      "name": "j4nn0-skills",
+      "source": "./",
+      "description": "J4NN0's skills for engineering (grilling, code review, domain modelling, etc.)",
+      "category": "engineering",
+      "keywords": [
+        "engineering",
+        "skills",
+        "code-review",
+        "grilling"
+      ]
+    }
+  ]
+}

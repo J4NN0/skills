@@ -1,0 +1,25 @@
+{
+  "name": "j4nn0-skills",
+  "version": "0.1.0",
+  "description": "J4NN0's skills for engineering",
+  "author": {
+    "name": "J4NN0",
+    "url": "https://j4nn0.github.io/"
+  },
+  "homepage": "https://j4nn0.github.io/",
+  "repository": "https://github.com/J4NN0/skills",
+  "license": "MIT",
+  "keywords": [
+    "engineering",
+    "skills",
+    "code-review",
+    "grilling"
+  ],
+  "skills": [
+    "./skills/engineering/find-docs",
+    "./skills/engineering/pr-description",
+    "./skills/engineering/systematic-debugging",
+    "./skills/productivity/grill-me",
+    "./skills/productivity/grilling"
+  ]
+}
