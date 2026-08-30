@@ -5,8 +5,7 @@ Personal collection of [Claude Code agent skills](https://docs.claude.com/en/doc
 | Skill | Description |
 |---|---|
 | `find-docs` | Fetch up-to-date library/framework docs via Context7[^1] |
-| `grilling` | Stress-test a plan or design through relentless questioning[^2] |
-| `grill-me` | `/grill-me` — a relentless interview to sharpen a plan or design[^2] |
+| `grill-me` | A relentless interview to sharpen a plan or design[^2] |
 | `pr-description` | Write concise PR descriptions from the repo diff and context |
 | `systematic-debugging` | Four-phase debugging with root cause analysis before fixes[^3] |
 

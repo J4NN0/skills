@@ -19,7 +19,6 @@
     "./skills/engineering/find-docs",
     "./skills/engineering/pr-description",
     "./skills/engineering/systematic-debugging",
-    "./skills/productivity/grill-me",
-    "./skills/productivity/grilling"
+    "./skills/productivity/grill-me"
   ]
 }
