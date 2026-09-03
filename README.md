@@ -1,6 +1,6 @@
 # Skills
 
-Personal collection of [Claude Code agent skills](https://docs.claude.com/en/docs/claude-code/skills).
+Personal collection of agent skills.
 
 | Skill | Description |
 |---|---|
@@ -50,5 +50,10 @@ Choose the skills you need, and the coding agents to install them in.
 </details>
 
 [^1]: [Context7](https://context7.com/install)
-[^2]: Adapted from [mattpocock/skills — grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)
-[^3]: Adapted from [obra/superpowers — systematic-debugging](https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md)
+[^2]: Adapted from [mattpocock/skills @ grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)
+[^3]: Adapted from [obra/superpowers @ systematic-debugging](https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md)
+
+## Resources
+
+- [Claude Code skills](https://docs.claude.com/en/docs/claude-code/skills)
+- [Codex skills](https://learn.chatgpt.com/docs/build-skills)
