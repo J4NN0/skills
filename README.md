@@ -4,11 +4,12 @@ Personal collection of [Claude Code agent skills](https://docs.claude.com/en/doc
 
 | Skill | Description |
 |---|---|
-| `find-docs` | Fetch up-to-date library/framework docs via Context7[^1] |
-| `grill-me` | A relentless interview to sharpen a plan or design[^2] |
+| `diagnosing-bugs` | Diagnosis loop for hard bugs and performance regressions[^1] |
+| `find-docs` | Fetch up-to-date library/framework docs via Context7[^2] |
+| `grill-me` | A relentless interview to sharpen a plan or design[^3] |
 | `pr-description` | Write concise PR descriptions from the repo diff and context |
-| `systematic-debugging` | Four-phase debugging with root cause analysis before fixes[^3] |
-| `diagnosing-bugs` | Diagnosis loop for hard bugs[^4] |
+| `systematic-debugging` | Four-phase debugging with root cause analysis before fixes[^4] |
+| `to-ticket` | Draft a standalone ticket from the current conversation |
 
 ## Installation
 
@@ -49,7 +50,7 @@ Choose the skills you need, and the coding agents to install them in.
 
 </details>
 
-[^1]: [Context7](https://context7.com/install)
-[^2]: Adapted from [mattpocock/skills — grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)
-[^3]: Adapted from [obra/superpowers — systematic-debugging](https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md)
-[^4]: Adapted from [mattpocock/skills — diagnosing-bugs](https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md)
+[^1]: Adapted from [mattpocock/skills — diagnosing-bugs](https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md)
+[^2]: [Context7](https://context7.com/install)
+[^3]: Adapted from [mattpocock/skills — grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)
+[^4]: Adapted from [obra/superpowers — systematic-debugging](https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md)
