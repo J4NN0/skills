@@ -1,0 +1,4 @@
+interface:
+  display_name: "To Ticket"
+  short_description: "Turn a conversation into a concise ticket"
+  default_prompt: "Use $to-ticket to draft a concise ticket from our conversation so far."
