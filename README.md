@@ -15,14 +15,25 @@ Personal collection of [Claude Code agent skills](https://docs.claude.com/en/doc
 <details>
 <summary><strong>Claude Code</strong></summary>
 
+Add the marketplace once, then install:
+
 ```bash
-claude plugins install j4nn0-skills
+claude plugin marketplace add J4NN0/skills
+claude plugin install j4nn0-skills@J4NN0
 ```
 
 Or, from inside a session:
 
+```
+/plugin marketplace add J4NN0/skills
+/plugin install j4nn0-skills@J4NN0
+```
+
+To pick up new or updated skills later:
+
 ```bash
-/plugin install j4nn0-skills
+claude plugin marketplace update J4NN0
+claude plugin update j4nn0-skills
 ```
 
 </details>
