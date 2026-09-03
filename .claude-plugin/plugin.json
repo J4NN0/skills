@@ -1,6 +1,6 @@
 {
   "name": "j4nn0-skills",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "J4NN0's skills for engineering",
   "author": {
     "name": "J4NN0",
@@ -19,7 +19,6 @@
     "./skills/engineering/find-docs",
     "./skills/engineering/pr-description",
     "./skills/engineering/systematic-debugging",
-    "./skills/engineering/diagnosing-bugs",
     "./skills/productivity/to-ticket",
     "./skills/productivity/grill-me"
   ]

@@ -1,3 +1,4 @@
 interface:
   display_name: "Systematic Debugging"
-  short_description: "Debugging with root cause analysis."
+  short_description: "Evidence-led diagnosis and verified fixes"
+  default_prompt: "Use $systematic-debugging to diagnose this issue and, if requested, implement a verified root-cause fix."

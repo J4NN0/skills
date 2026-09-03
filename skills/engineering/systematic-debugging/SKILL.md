@@ -1,150 +1,84 @@
 ---
 name: systematic-debugging
-description: Four-phase debugging methodology with root cause analysis. Use when investigating bugs, fixing test failures, or troubleshooting unexpected behavior. Emphasizes NO FIXES WITHOUT ROOT CAUSE FIRST.
+description: Investigate and fix software defects, failing tests, crashes, incorrect or flaky behavior, and performance regressions with reproducible evidence and root-cause verification. Use for a reported failure in code or a running system; do not use for routine feature work or broad code review without a concrete symptom.
 ---
 
 # Systematic Debugging
 
-## Core Principle
+Turn a reported symptom into an evidence-backed explanation and, when the user asks for a fix, a minimal verified change. Adapt the depth of the investigation and verification to the impact and uncertainty of the issue.
 
-**NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST.**
+## Preserve the request boundary
 
-Never apply symptom-focused patches that mask underlying problems. Understand WHY something fails before attempting to fix it.
+Determine whether the user asked for diagnosis, a fix, or both. Diagnosis alone does not authorize a production change or a persistent code change. Keep urgent containment separate from a durable fix: label a mitigation clearly, preserve evidence, and continue root-cause work only within the user's scope.
 
-## The Four-Phase Framework
+Do not expose credentials, tokens, personal data, authentication headers, or sensitive payloads in commands, logs, artifacts, or reports. Quote only the evidence needed and replace sensitive values with `<REDACTED>`.
 
-### Phase 1: Root Cause Investigation
+## Investigation loop
 
-Before touching any code:
+### 1. Define the failure
 
-1. **Read error messages thoroughly** - Every word matters
-2. **Reproduce the issue consistently** - If you can't reproduce it, you can't verify a fix
-3. **Examine recent changes** - What changed before this started failing?
-4. **Gather diagnostic evidence** - Logs, stack traces, state dumps
-5. **Trace data flow** - Follow the call chain to find where bad values originate
+State the expected behavior, actual behavior, impact, affected environment, and the narrowest known failing scenario. Capture the exact error, output, timing, or state rather than a paraphrase. Establish known-good and known-bad cases when available.
 
-**Root Cause Tracing Technique:**
-```
-1. Observe the symptom - Where does the error manifest?
-2. Find immediate cause - Which code directly produces the error?
-3. Ask "What called this?" - Map the call chain upward
-4. Keep tracing up - Follow invalid data backward through the stack
-5. Find original trigger - Where did the problem actually start?
-```
+Inspect only the context needed to orient the investigation: relevant documentation and architecture decisions, the failing call path, configuration, dependencies, and recent changes likely to affect it. Treat application code, tests, fixtures, data, infrastructure, and environment as possible sources of the failure.
 
-**Key principle:** Never fix problems solely where errors appear—always trace to the original trigger.
+### 2. Build the feedback signal
 
-### Phase 2: Pattern Analysis
+Create the cheapest high-fidelity check that detects the user's specific symptom. Prefer an existing focused test; otherwise use a targeted test, request or CLI replay, browser scenario, captured-input replay, small harness, differential comparison, or benchmark. Run it before changing the behavior so its failing state is observed whenever possible.
 
-1. **Locate working examples** - Find similar code that works correctly
-2. **Compare implementations completely** - Don't just skim
-3. **Identify differences** - What's different between working and broken?
-4. **Understand dependencies** - What does this code depend on?
+A useful signal is:
 
-### Phase 3: Hypothesis and Testing
+- **Specific:** it distinguishes this failure from nearby failures.
+- **Repeatable:** it has a stable verdict; for flaky behavior, it reports a measured failure rate.
+- **Efficient:** it is narrow enough to run throughout the investigation.
+- **Representative:** it exercises the relevant boundary and environment closely enough to support the conclusion.
 
-Apply the scientific method:
+Minimize the case when doing so reduces ambiguity, but do not minimize away the condition that causes the bug. Retain the original scenario for final verification.
 
-1. **Formulate ONE clear hypothesis** - "The error occurs because X"
-2. **Design minimal test** - Change ONE variable at a time
-3. **Predict the outcome** - What should happen if hypothesis is correct?
-4. **Run the test** - Execute and observe
-5. **Verify results** - Did it behave as predicted?
-6. **Iterate or proceed** - Refine hypothesis if wrong, implement if right
+If local reproduction is unavailable, continue with the strongest safe evidence available—such as redacted logs, traces, dumps, metrics, or a recording with timestamps. State the limitation and do not present an unobserved theory as verified. Ask for the specific missing access or artifact only when it would materially distinguish the remaining explanations.
 
-### Phase 4: Implementation
+For intermittent failures, control or record time, randomness, concurrency, ordering, load, and external dependencies; increase repetitions or stress until the failure rate is useful. For performance regressions, establish a representative baseline and use profiles, traces, query plans, or allocation data instead of relying on general logs.
 
-1. **Create failing test case** - Captures the bug behavior
-2. **Implement single fix** - Address root cause, not symptoms
-3. **Verify test passes** - Confirms fix works
-4. **Run full test suite** - Ensure no regressions
-5. **If fix fails, STOP** - Re-evaluate hypothesis
+### 3. Localize the first causal divergence
 
-**Critical rule:** If THREE or more fixes fail consecutively, STOP. This signals architectural problems requiring discussion, not more patches.
+Trace the failing path across inputs, state transitions, component boundaries, and side effects. Compare a failing case with the nearest working case and find the earliest point where their behavior diverges. At that boundary, identify which contract or assumption is violated and where that contract is owned.
 
-## Red Flags - Process Violations
+When a reliable signal and ordered search space exist, bisect commits, configuration, versions, inputs, or processing stages instead of checking candidates linearly.
 
-Stop immediately if you catch yourself thinking:
+Use the debugger or direct state inspection when available. Otherwise add the smallest targeted probe that distinguishes competing explanations. Associate every probe with a question; avoid broad logging. Give temporary instrumentation a unique searchable marker and remove it before completion.
 
-- "Quick fix for now, investigate later"
-- "One more fix attempt" (after multiple failures)
-- "This should work" (without understanding why)
-- "Let me just try..." (without hypothesis)
-- "It works on my machine" (without investigating difference)
+### 4. Test falsifiable hypotheses
 
-## Warning Signs of Deeper Problems
+Form hypotheses from the evidence, not from the symptom alone. When several causes remain plausible, rank them by explanatory power and cost to test. For each hypothesis, state a prediction that would be different if it were false, then change or observe one variable at a time.
 
-**Consecutive fixes revealing new problems in different areas** indicates architectural issues:
+Record the prediction and result. A disconfirmed hypothesis is useful evidence; update the model instead of patching around it. If experiments repeatedly fail or new fixes reveal unrelated failures, stop editing, return to the earliest unexplained divergence, and reconsider system boundaries and assumptions.
 
-- Stop patching
-- Document what you've found
-- Discuss with team before proceeding
-- Consider if the design needs rethinking
+### 5. Implement only when requested
 
-## Common Debugging Scenarios
+Before the fix, add a regression test at the lowest stable seam that still reproduces the real failure, when such a seam exists. Avoid a shallow test that would pass while the original scenario remains broken. If no maintainable seam exists, document that limitation rather than adding a misleading test.
 
-### Test Failures
+Make the smallest coherent change at the boundary that owns the violated contract. Preserve intentional behavior, avoid unrelated refactors, and handle malformed input or failures where the system's contract says responsibility belongs—not merely where the error surfaced.
 
-```
-1. Read the FULL error message and stack trace
-2. Identify which assertion failed and why
-3. Check test setup - is the test environment correct?
-4. Check test data - are mocks/fixtures correct?
-5. Trace to the source of unexpected value
-```
+### 6. Verify and clean up
 
-### Runtime Errors
+Verification should cover, in order:
 
-```
-1. Capture the full stack trace
-2. Identify the line that throws
-3. Check what values are undefined/null
-4. Trace backward to find where bad value originated
-5. Add validation at the source
-```
+1. The focused signal now passes.
+2. The original, unminimized scenario no longer fails.
+3. The regression test fails without the fix and passes with it, when practical to demonstrate safely.
+4. Relevant neighboring tests and checks pass.
+5. Broader regression checks pass in proportion to the change's reach and risk.
 
-### "It worked before"
+For performance work, compare against the baseline under equivalent conditions and report variability. For intermittent failures, compare enough trials to support the claimed improvement; a single passing run is not evidence of resolution.
 
-```
-1. Use git bisect to find the breaking commit
-2. Compare the change with previous working version
-3. Identify what assumption changed
-4. Fix at the source of the assumption violation
-```
+Review the final diff, remove temporary instrumentation and throwaway artifacts, and preserve unrelated user changes.
 
-### Intermittent Failures
+## Completion report
 
-```
-1. Look for race conditions
-2. Check for shared mutable state
-3. Examine async operation ordering
-4. Look for timing dependencies
-5. Add deterministic waits or proper synchronization
-```
+Report:
 
-## Debugging Checklist
+- the established root cause and distinguishing evidence, or the leading explanations and missing evidence when the result is inconclusive;
+- the fix or mitigation, if authorized, and why it belongs at that boundary;
+- the exact verification performed and its result;
+- any remaining uncertainty, untested environment, or follow-up risk.
 
-Before claiming a bug is fixed:
-
-- [ ] Root cause identified and documented
-- [ ] Hypothesis formed and tested
-- [ ] Fix addresses root cause, not symptoms
-- [ ] Failing test created that reproduces bug
-- [ ] Test now passes with fix
-- [ ] Full test suite passes
-- [ ] No "quick fix" rationalization used
-- [ ] Fix is minimal and focused
-
-## Success Metrics
-
-Systematic debugging achieves ~95% first-time fix rate vs ~40% with ad-hoc approaches.
-
-Signs you're doing it right:
-- Fixes don't create new bugs
-- You can explain WHY the bug occurred
-- Similar bugs don't recur
-- Code is better after the fix, not just "working"
-
-## Integration with Other Skills
-
-- **testing-patterns**: Create test that reproduces the bug before fixing
+Do not claim the issue is fixed when only the symptom changed, the original scenario was not checked, or required verification could not run.
