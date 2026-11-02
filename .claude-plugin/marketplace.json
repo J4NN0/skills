@@ -7,7 +7,7 @@
   "description": "J4NN0's skills for engineering",
   "plugins": [
     {
-      "name": "j4nn0-skills",
+      "name": "j4nn0",
       "source": "./",
       "description": "J4NN0's skills for engineering (grilling, code review, domain modelling, etc.)",
       "category": "engineering",

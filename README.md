@@ -19,21 +19,21 @@ Add the marketplace once, then install:
 
 ```bash
 claude plugin marketplace add J4NN0/skills
-claude plugin install j4nn0-skills@J4NN0
+claude plugin install j4nn0@J4NN0
 ```
 
 Or, from inside a session:
 
 ```
 /plugin marketplace add J4NN0/skills
-/plugin install j4nn0-skills@J4NN0
+/plugin install j4nn0@J4NN0
 ```
 
 To pick up new or updated skills later:
 
 ```bash
 claude plugin marketplace update J4NN0
-claude plugin update j4nn0-skills
+claude plugin update j4nn0
 ```
 
 </details>
